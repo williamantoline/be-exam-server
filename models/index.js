@@ -21,6 +21,7 @@ db.sequelize = sequelize;
 db.users = require("./user.model.js")(sequelize, Sequelize);
 db.books = require("./book.model.js")(sequelize, Sequelize);
 db.categories = require("./category.model.js")(sequelize, Sequelize);
+db.notifications = require("./notification.model.js")(sequelize, Sequelize);
 
 db.categories.hasMany(db.books, {
     as: "books",
@@ -30,5 +31,13 @@ db.books.belongsTo(db.categories, {
     foreignKey: "categoryId",
     as: "category",
 });
+
+db.users.hasMany(db.notifications, {
+    as: "notifications",
+})
+
+db.notifications.belongsTo(db.users, {
+    as: "user"
+})
 
 module.exports = db;
