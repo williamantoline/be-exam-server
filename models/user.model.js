@@ -23,6 +23,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(255),
             allowNull: false,
         },
+        role:{
+            type: Sequelize.BOOLEAN(),
+            allowNull: false,
+        }
     });
     return User;
 }
