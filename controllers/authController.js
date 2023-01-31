@@ -13,16 +13,17 @@ const getUser = async (email) => {
 
 const cookieJwtAuth = (req, res) => {
   const token = req.headers.authorization;
+  const user = jwt.verify(token, process.env.JWT_KEY);
   if(!token){
     return res.json({tokenStatus: false}).status(200);
   }else{
-    return res.json({tokenStatus: true}).status(200);
+    return res.json({tokenStatus: true, role: user.role}).status(200);
   }
 }
 
 const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
     console.log("abc")
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, async (err, password) => {
@@ -30,7 +31,7 @@ const register = async (req, res) => {
         return res.send("Gagal Menambahkan Data User").status(400);
       }
       if(password){
-        await model.users.create({name, email, password});
+        await model.users.create({name, email, password, role: role || true});
         return res.send("Berhasil Menambahkan Data User").status(200);
       }
     });
@@ -67,19 +68,19 @@ const login = async (req, res) => {
     sameSite: "None"
   });
 
-  return res.json({token: token});
+  return res.json({token: token, role: user.role});
   
   } catch (err) {
     res.status(500).end();
   }
 }
 
-const revoke = (req, res) => {
-  return res.status(204).end();
-}
+// const revoke = (req, res) => {
+//   return res.status(204).end();
+// }
 
-const me = async (req, res) => {
-  return res.json("me");
-}
+// const me = async (req, res) => {
+//   return res.json("me");
+// }
 
 module.exports = { register, login, revoke, me, cookieJwtAuth }
