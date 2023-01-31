@@ -83,4 +83,4 @@ const login = async (req, res) => {
 //   return res.json("me");
 // }
 
-module.exports = { register, login, revoke, me, cookieJwtAuth }
+module.exports = { register, login, cookieJwtAuth }
