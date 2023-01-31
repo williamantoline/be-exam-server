@@ -43,11 +43,11 @@ exports.show = async (req, res) => {
 exports.store = async (req, res) => {
     try{
         const { name } = req.body;
-        const cat = await Category.create({name});
+        const category = await Category.create({name});
 
         res.status(201).json({
             message: "Store Category success",
-            data: cat,
+            data: category,
         });
 
     } catch (err) {

@@ -16,7 +16,7 @@ exports.index = async (req, res) => {
 exports.read = async (req, res) => {
     try{
         const notifications = await Notification.findAll();
-        const readAt = new Date().getDate();
+        const readAt = new Date().toISOString()
         for(const notif of notifications){
             notif.read_at = readAt;
             await notif.save();

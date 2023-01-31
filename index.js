@@ -48,8 +48,12 @@ app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
 // main routing
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
+const categoryRoutes = require('./routes/category');
+const notifRoutes = require('./routes/notif')
 app.use(authRoutes);
 app.use(bookRoutes);
+app.use(categoryRoutes);
+app.use(notifRoutes);
 
 // handle 404
 app.use((req, res, next) => {
