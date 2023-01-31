@@ -17,23 +17,23 @@ module.exports = (sequelize, Sequelize) => {
         },
         publisher: {
             type: Sequelize.STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
         description: {
             type: Sequelize.STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
         page: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         language: {
             type: Sequelize.STRING(255),
-            allowNull: false,
+            allowNull: true,
         },
         stock: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
         },
         image: {
             type: Sequelize.STRING(255),

@@ -1,5 +1,4 @@
 const { check, validationResult } = require('express-validator');
-// const model = require("../models/index");
 
 exports.validateBook = [
     check('title')
@@ -10,9 +9,6 @@ exports.validateBook = [
         .withMessage('author is required').bail()
         .isAlpha()
         .withMessage("Author name should contain only letters").bail(),
-    check('publisher')
-        .notEmpty()
-        .withMessage('Password is required').bail(),
     (req, res, next) => {
         const errors = validationResult(req);
         if(!req.file){
