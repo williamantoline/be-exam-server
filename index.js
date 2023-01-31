@@ -28,7 +28,7 @@ db.sequelize.sync()
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/images');
+        cb(null, '../be-exam-client/public/images');
     },
     filename: (req, file, cb) => {
         cb(null, new Date().getTime()+ '-' + file.originalname)
