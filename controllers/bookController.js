@@ -1,3 +1,6 @@
+const sharp = require('sharp');
+const path = require('path')
+const fs = require('fs')
 const model = require("../models/index");
 const Book = model.books;
 const Category = model.categories;
@@ -42,7 +45,17 @@ exports.show = async (req, res) => {
 exports.store = async (req, res) => {
     try{
         const { title, author, publisher, description, page, language, stock, categoryId } = req.body;
-        const image = req.file.path;
+        const imagePath = req.file.path;
+        const {filename: img} = req.file;
+        await sharp(imagePath)
+        .resize({
+            width: 500,
+            height: 750,
+        })
+        .toFormat('png', {quality: 80})
+        .toFile(
+            path.resolve(req.file.destination,'../compressed',img.split('.')[0]+'.png')
+        )
 
         const book = await Book.create({
             title: title,
@@ -52,7 +65,7 @@ exports.store = async (req, res) => {
             page: page,
             language: language,
             stock: stock,
-            image: image,
+            image: 'public/compressed/'+img.split('.')[0]+'.png',
             categoryId: categoryId
         })
 

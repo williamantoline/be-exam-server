@@ -43,7 +43,7 @@ const fileFilter = (req, file, cb) => {
     }
 }
 
-app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'))
+app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
 
 // main routing
 const authRoutes = require("./routes/auth");

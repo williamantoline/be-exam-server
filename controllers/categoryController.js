@@ -6,7 +6,7 @@ exports.index = async (req, res) => {
     try {
         const categories = await Category.findAll({
             include: {
-                model: [Book],
+                model: Book,
                 as: 'books',
                 attributes: { exclude: ['categoryId'] },
             }
@@ -25,7 +25,7 @@ exports.show = async (req, res) => {
             id: req.params.id
         },
         include: {
-            model: [Book],
+            model: Book,
             as: 'books',
             attributes: { exclude: ['categoryId'] }
         },
