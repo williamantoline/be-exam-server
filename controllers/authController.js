@@ -17,7 +17,7 @@ const cookieJwtAuth = (req, res) => {
   if(!token){
     return res.json({tokenStatus: false}).status(200);
   }else{
-    return res.json({tokenStatus: true, role: user.role}).status(200);
+    return res.json({tokenStatus: true, is_admin: user.is_admin}).status(200);
   }
 }
 
@@ -31,7 +31,7 @@ const register = async (req, res) => {
         return res.send("Gagal Menambahkan Data User").status(400);
       }
       if(password){
-        await model.users.create({name, email, password, role: false});
+        await model.users.create({name, email, password, is_admin: false});
         return res.send("Berhasil Menambahkan Data User").status(200);
       }
     });
@@ -69,7 +69,7 @@ const login = async (req, res) => {
     sameSite: "None"
   });
 
-  return res.json({token: token, role: user.role});
+  return res.json({token: token, is_admin: user.is_admin});
   
   } catch (err) {
     res.status(500).end();

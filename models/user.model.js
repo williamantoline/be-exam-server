@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(255),
             allowNull: false,
         },
-        role:{
+        is_admin:{
             type: Sequelize.BOOLEAN(),
             allowNull: false,
         }
