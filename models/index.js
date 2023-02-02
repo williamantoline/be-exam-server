@@ -22,6 +22,7 @@ db.users = require("./user.model.js")(sequelize, Sequelize);
 db.books = require("./book.model.js")(sequelize, Sequelize);
 db.categories = require("./category.model.js")(sequelize, Sequelize);
 db.notifications = require("./notification.model.js")(sequelize, Sequelize);
+db.borrowings = require("./borrowing.model.js")(sequelize, Sequelize);
 
 db.categories.hasMany(db.books, {
     as: "books",
@@ -37,7 +38,20 @@ db.users.hasMany(db.notifications, {
 })
 
 db.notifications.belongsTo(db.users, {
-    as: "user"
+    as: "user",
+})
+
+db.users.hasMany(db.borrowings, {
+    as: "borrowings",
+})
+
+db.borrowings.belongsTo(db.users, {
+    foreignKey: "userId",
+    as: 'user'
+})
+
+db.borrowings.hasMany(db.books, {
+    as: 'books'
 })
 
 module.exports = db;

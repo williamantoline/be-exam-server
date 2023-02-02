@@ -7,8 +7,8 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        duration: {
-          type: Sequelize.DATE,
+        status: {
+          type: Sequelize.BOOLEAN,
           allowNull: false
         }
     });

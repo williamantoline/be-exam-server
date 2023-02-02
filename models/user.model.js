@@ -24,7 +24,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false,
         },
         is_admin:{
-            type: Sequelize.BOOLEAN(),
+            type: Sequelize.BOOLEAN,
             allowNull: false,
         }
     });
