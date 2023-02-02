@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
-const multer = require('multer')
 const { authMid } = require("./middleware/authMid");
 
 app.use(cookieParser());
@@ -26,31 +25,12 @@ db.sequelize.sync()
         console.log("Failed to sync db: " + err.message);
     });
 
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './public/images');
-    },
-    filename: (req, file, cb) => {
-        cb(null, new Date().getTime()+ '-' + file.originalname)
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg'){
-        cb(null, true);
-    }else{
-        cb(null, false);
-    }
-}
-
-app.use(multer({storage: fileStorage, fileFilter: fileFilter}).single('image'));
-
 // main routing
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const categoryRoutes = require('./routes/category');
 const notifRoutes = require('./routes/notif')
-app.use('/api', authRoutes);
+app.use('/auth', authRoutes);
 app.use('/api', bookRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', notifRoutes);

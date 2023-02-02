@@ -1,6 +1,5 @@
 const sharp = require('sharp');
 const path = require('path')
-const fs = require('fs')
 const model = require("../models/index");
 const Book = model.books;
 const Category = model.categories;

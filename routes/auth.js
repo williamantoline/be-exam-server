@@ -4,10 +4,10 @@ const router = express.Router();
 const authController = require('../controllers/authController')
 const { validateUser } = require('../middleware/userValidator')
 
-router.post('/auth/jwtToken', authController.cookieJwtAuth)
-router.post('/auth/register', validateUser, authController.register);
-router.post('/auth/login', authController.login);
-// router.post('/auth/revoke', authController.revoke);
-// router.get('/auth/me', authController.me);
+router.post('/jwtToken', authController.cookieJwtAuth)
+router.post('/register', validateUser, authController.register);
+router.post('/login', authController.login);
+// router.post('/revoke', authController.revoke);
+// router.get('/me', authController.me);
 
 module.exports = router;

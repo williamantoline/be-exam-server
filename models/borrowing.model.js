@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
             primaryKey: true,
         },
         status: {
-          type: Sequelize.BOOLEAN,
+          type: Sequelize.STRING(255),
           allowNull: false
         }
     });
