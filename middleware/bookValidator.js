@@ -7,6 +7,8 @@ exports.validateBook = [
     check('author')
         .notEmpty()
         .withMessage('author is required').bail()
+        .isLength({ min: 2, max: 255 })
+        .withMessage('Name must have a minimum length of 2').bail()
         .isAlpha('en-US', {ignore: '\s'})
         .withMessage("Author name should contain only letters").bail(),
     (req, res, next) => {

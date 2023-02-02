@@ -3,8 +3,8 @@ const router = express.Router();
 
 const notifController = require('../controllers/notifController');
 
-router.get('/api/notifications', notifController.index);
-router.patch('/api/notifications', notifController.read);
-router.delete('/api/notifications', notifController.clear);
+router.get('/notifications', notifController.index);
+router.patch('/notifications', notifController.read);
+router.delete('/notifications', notifController.clear);
 
 module.exports = router;
