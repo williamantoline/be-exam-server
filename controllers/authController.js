@@ -23,7 +23,7 @@ const cookieJwtAuth = (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     console.log("abc")
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, async (err, password) => {
@@ -31,7 +31,7 @@ const register = async (req, res) => {
         return res.send("Gagal Menambahkan Data User").status(400);
       }
       if(password){
-        await model.users.create({name, email, password, role: role || false});
+        await model.users.create({name, email, password, role: false});
         return res.send("Berhasil Menambahkan Data User").status(200);
       }
     });
