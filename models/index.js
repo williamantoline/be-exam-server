@@ -50,8 +50,8 @@ db.borrowings.belongsTo(db.users, {
     as: 'user'
 })
 
-db.borrowings.hasMany(db.books, {
-    as: 'books'
+db.borrowings.hasOne(db.books, {
+    as: 'book'
 })
 
 module.exports = db;

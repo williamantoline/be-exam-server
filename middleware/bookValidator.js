@@ -3,12 +3,12 @@ const { check, validationResult } = require('express-validator');
 exports.validateBook = [
     check('title')
         .notEmpty()
-        .withMessage('Name is required').bail(),
+        .withMessage('Title is required').bail(),
     check('author')
         .notEmpty()
-        .withMessage('author is required').bail()
+        .withMessage('Author name is required').bail()
         .isLength({ min: 2, max: 255 })
-        .withMessage('Name must have a minimum length of 2').bail()
+        .withMessage('Author name must have a minimum length of 2').bail()
         .isAlpha('en-US', {ignore: '\s'})
         .withMessage("Author name should contain only letters").bail(),
     (req, res, next) => {
