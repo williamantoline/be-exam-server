@@ -31,11 +31,12 @@ const register = async (req, res) => {
         return res.send("Gagal Menambahkan Data User").status(400);
       }
       if(password){
-        await model.users.create({name, email, password, role: role || true});
+        await model.users.create({name, email, password, role: role || false});
         return res.send("Berhasil Menambahkan Data User").status(200);
       }
     });
   } catch (err) {
+    console.log(err)
     return res.status(500).end();
   }
 }

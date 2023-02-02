@@ -7,7 +7,7 @@ exports.validateBook = [
     check('author')
         .notEmpty()
         .withMessage('author is required').bail()
-        .isAlpha()
+        .isAlpha('en-US', {ignore: '\s'})
         .withMessage("Author name should contain only letters").bail(),
     (req, res, next) => {
         const errors = validationResult(req);
