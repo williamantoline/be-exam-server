@@ -12,13 +12,19 @@ const getUser = async (email) => {
 }
 
 const cookieJwtAuth = (req, res) => {
-  const token = req.headers.authorization;
-  const user = jwt.verify(token, process.env.JWT_KEY);
-  if(!token){
-    return res.json({tokenStatus: false}).status(200);
-  }else{
+  try {
+    const token = req.headers.authorization;
+    if(!token){
+      return res.json({tokenStatus: false}).status(200);
+    }
+
+    const user = jwt.verify(token, process.env.JWT_KEY);
     return res.json({tokenStatus: true, is_admin: user.is_admin, user: user}).status(200);
+    
+  } catch (err) {
+    throw err;
   }
+
 }
 
 const register = async (req, res) => {
