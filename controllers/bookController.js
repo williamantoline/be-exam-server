@@ -43,7 +43,7 @@ exports.show = async (req, res) => {
 
 exports.store = async (req, res) => {
     try{
-        const { title, author, publisher, description, page, language, stock, categoryId } = req.body;
+        const { title, author, publisher, description, page, language, categoryId } = req.body;
         const imagePath = req.file.path;
         const {filename: img} = req.file;
         await sharp(imagePath)
@@ -63,7 +63,6 @@ exports.store = async (req, res) => {
             description: description,
             page: page,
             language: language,
-            stock: stock,
             image: 'public/compressed/'+img.split('.')[0]+'.png',
             categoryId: categoryId
         })
@@ -80,7 +79,7 @@ exports.store = async (req, res) => {
 
 exports.update = async (req, res) => {
     try{
-        const { title, author, publisher, description, page, language, stock, categoryId } = req.body;
+        const { title, author, publisher, description, page, language, categoryId } = req.body;
         const image = req.file.path;
         const book = await Book.findOne({
             where: {
@@ -95,7 +94,6 @@ exports.update = async (req, res) => {
             description: description,
             page: page,
             language: language,
-            stock: stock,
             image: image,
             categoryId: categoryId
         })

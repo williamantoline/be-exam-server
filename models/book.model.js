@@ -31,9 +31,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING(255),
             allowNull: true,
         },
-        stock: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
+        isAvailable: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true,
+            allowNull: false,
         },
         image: {
             type: Sequelize.STRING(255),

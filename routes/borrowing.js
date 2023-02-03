@@ -6,6 +6,6 @@ const borrowingController = require('../controllers/borrowingController');
 router.get('/borrowings', borrowingController.index);
 router.get('/borrowings/:id', borrowingController.show);
 router.post('/borrowings', borrowingController.store);
-router.delete('/borrowings/:id', borrowingController.destroy);
+router.delete('/borrowings/:id', borrowingController.return);
 
 module.exports = router;

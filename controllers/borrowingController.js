@@ -57,8 +57,19 @@ exports.show = async (req, res) => {
 exports.store = async (req, res) => {
     try{
         const { status } = req.body;
+        const book = await Book.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+        if(!book){
+            return res.status(404).json({
+                message: "Not found"
+            })
+        }
         const borrowing = await Borrowing.create({status: status, userId: req.user.id, bookId: req.body.id});
-
+        book.isAvailable = false
+        await book.save()
         res.status(201).json({
             message: "Store Borrowing success",
             data: borrowing,
@@ -69,9 +80,21 @@ exports.store = async (req, res) => {
     }
 }
 
-exports.destroy = async (req, res) => {
+exports.return = async (req, res) => {
     try{
-      await Borrowing.destroy({
+        const borrowing = await Borrowing.findOne({
+            where: {
+                id: req.params.id,
+            }
+        })
+        const book = await Book.findOne({
+            where:{
+                id: borrowing.bookId,
+            }
+        })
+        book.isAvailable = true;
+        await book.save();
+        await Borrowing.destroy({
 			where: {
 				id: req.params.id,
                 userId: req.user.id
@@ -81,6 +104,7 @@ exports.destroy = async (req, res) => {
 			message: "Delete Borrowing success"
 		});
     } catch (err) {
+        if(err) console.log(err)
         res.status(500).end()
     }
 }
