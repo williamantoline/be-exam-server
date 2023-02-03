@@ -17,7 +17,7 @@ const cookieJwtAuth = (req, res) => {
   if(!token){
     return res.json({tokenStatus: false}).status(200);
   }else{
-    return res.json({tokenStatus: true, is_admin: user.is_admin}).status(200);
+    return res.json({tokenStatus: true, is_admin: user.is_admin, user: user}).status(200);
   }
 }
 
@@ -84,4 +84,50 @@ const login = async (req, res) => {
 //   return res.json("me");
 // }
 
-module.exports = { register, login, cookieJwtAuth }
+const editProfile = async (req, res) => {
+  // console.log(req.body);
+  try {
+    const token = req.headers.authorization;
+    const user_ = await jwt.verify(token, process.env.JWT_KEY);
+    console.log(user_);
+    const user = await model.users.findOne({
+      where: {
+        id: user_.id,
+      }
+    });
+    console.log(user);
+    const { name, email, password } = req.body;
+    console.log(name, email, password);
+
+    // user.name = name;
+    // user.email = email;
+    // user.password = password;
+    // user.save();
+
+    model.users.updateOne({
+      name: name,
+      email: email,
+      password: password,
+    }, {
+      where: {
+        id: user_.id,
+      }
+    });
+
+    // user.set({
+    //   name: name,
+    //   email: email,
+    //   password: password
+    // });
+
+    return res.status(200).json({
+      message: "edit profile success",
+    });
+    
+  } catch (err) {
+    console.log(err)
+    return res.status(500).end();
+  }
+}
+
+module.exports = { register, login, cookieJwtAuth, editProfile }
