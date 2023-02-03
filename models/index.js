@@ -50,7 +50,8 @@ db.borrowings.belongsTo(db.users, {
     as: 'user'
 })
 
-db.borrowings.hasOne(db.books, {
+db.borrowings.belongsTo(db.books, {
+    foreignKey: "bookId",
     as: 'book'
 })
 

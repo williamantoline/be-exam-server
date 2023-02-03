@@ -30,10 +30,13 @@ const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const categoryRoutes = require('./routes/category');
 const notifRoutes = require('./routes/notif')
-app.use('/auth', authRoutes);
+const borrowingRoutes = require('./routes/borrowing')
+
+app.use('/api/auth', authRoutes);
 app.use('/api', bookRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', notifRoutes);
+app.use('/api', authMid, borrowingRoutes);
 
 // handle 404
 app.use((req, res, next) => {
