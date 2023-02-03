@@ -3,6 +3,11 @@ const User = model.users;
 
 exports.index = async (req, res) => {
     try {
+        if(!req.user.is_admin){
+            res.status(401).json({
+                message: "Unauthorized",
+            });
+        }
         const users = await User.findAll({
             attributes: { exclude: ['password'] },
         })

@@ -34,7 +34,7 @@ const borrowingRoutes = require('./routes/borrowing')
 const userRoutes = require('./routes/user')
 
 app.use('/api/auth', authRoutes);
-app.use('/api', userRoutes);
+app.use('/api', authMid, userRoutes);
 app.use('/api', bookRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', notifRoutes);
