@@ -24,7 +24,6 @@ const cookieJwtAuth = (req, res) => {
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    console.log("abc")
     const saltRounds = 10;
     bcrypt.hash(password, saltRounds, async (err, password) => {
       if(err){

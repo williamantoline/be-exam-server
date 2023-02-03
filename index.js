@@ -31,8 +31,10 @@ const bookRoutes = require("./routes/book");
 const categoryRoutes = require('./routes/category');
 const notifRoutes = require('./routes/notif')
 const borrowingRoutes = require('./routes/borrowing')
+const userRoutes = require('./routes/user')
 
 app.use('/api/auth', authRoutes);
+app.use('/api', userRoutes);
 app.use('/api', bookRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', notifRoutes);
