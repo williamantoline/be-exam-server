@@ -51,7 +51,6 @@ db.borrowings.belongsTo(db.users, {
 })
 
 db.borrowings.belongsTo(db.books, {
-    foreignKey: "bookId",
     as: 'book'
 })
 
