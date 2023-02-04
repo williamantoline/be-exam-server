@@ -118,3 +118,18 @@ exports.return = async (req, res) => {
         res.status(500).end()
     }
 }
+
+exports.approved = async (req, res) => {
+    try{
+        const borrowing = await Borrowing.findOne({
+            where: {
+                id: req.params.id,
+            }
+        })
+        borrowing.status = "In Progress";
+        await borrowing.save();
+        notification.notify("success", "Borrowing book has been approved", "");
+    } catch (err) {
+        res.status(500).end()
+    }
+}
