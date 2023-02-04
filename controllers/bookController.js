@@ -117,25 +117,30 @@ exports.update = async (req, res) => {
             }
         })
 
-        book.set({
-            title: title,
-            author: author,
-            publisher: publisher,
-            description: description,
-            page: page,
-            language: language,
-            image: 'public/compressed/'+img.split('.')[0]+'.png',
-            categoryId: categoryId
-        })
+        if(!book) {
+            return res.status(404).json({
+                message: "Not found"
+            })
+        }
+
+        book.title = title,
+        book.author = author,
+        book.publisher = publisher,
+        book.description = description,
+        book.page = page,
+        book.language = language,
+        book.image = 'public/compressed/'+img.split('.')[0]+'.png',
+        book.categoryId = categoryId
 
         await book.save()
 
         res.status(200).json({
-			message: "Update Category success",
+			message: "Update Book success",
 			data: book,
 		});
 
     } catch (err) {
+        if(err) console.log(err)
         res.status(500).end();
     }
 }
