@@ -8,7 +8,7 @@ const { uploader } = require('../middleware/uploadImg')
 router.get('/books', bookController.index);
 router.get('/books/:id', bookController.show);
 router.post('/books', uploader, validateBook, bookController.store);
-router.put('/books/:id', bookController.update);
+router.post('/books/:id', bookController.update);
 router.delete('/books/:id', bookController.destroy);
 
 module.exports = router;

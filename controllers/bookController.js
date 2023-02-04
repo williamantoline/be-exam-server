@@ -118,7 +118,7 @@ exports.update = async (req, res) => {
             description: description,
             page: page,
             language: language,
-            image: image,
+            image: 'public/compressed/'+img.split('.')[0]+'.png',
             categoryId: categoryId
         }, {
             where: {
