@@ -111,7 +111,13 @@ exports.update = async (req, res) => {
             path.resolve(req.file.destination,'../compressed',img.split('.')[0]+'.png')
         )
         
-        await Book.update({
+        const book = Book.findOne({
+            where:{
+                id: req.params.id
+            }
+        })
+
+        book.set({
             title: title,
             author: author,
             publisher: publisher,
@@ -120,11 +126,9 @@ exports.update = async (req, res) => {
             language: language,
             image: 'public/compressed/'+img.split('.')[0]+'.png',
             categoryId: categoryId
-        }, {
-            where: {
-                id: req.params.id
-            }
         })
+
+        await book.save()
 
         res.status(200).json({
 			message: "Update Category success",
