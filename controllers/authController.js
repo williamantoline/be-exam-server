@@ -83,16 +83,7 @@ const login = async (req, res) => {
   }
 }
 
-// const revoke = (req, res) => {
-//   return res.status(204).end();
-// }
-
-// const me = async (req, res) => {
-//   return res.json("me");
-// }
-
 const editProfile = async (req, res) => {
-  // console.log(req.body);
   try {
     const token = req.headers.authorization;
     const user_ = await jwt.verify(token, process.env.JWT_KEY);
@@ -106,11 +97,6 @@ const editProfile = async (req, res) => {
     const { name, email, password } = req.body;
     console.log(name, email, password);
 
-    // user.name = name;
-    // user.email = email;
-    // user.password = password;
-    // user.save();
-
     model.users.updateOne({
       name: name,
       email: email,
@@ -120,12 +106,6 @@ const editProfile = async (req, res) => {
         id: user_.id,
       }
     });
-
-    // user.set({
-    //   name: name,
-    //   email: email,
-    //   password: password
-    // });
 
     return res.status(200).json({
       message: "edit profile success",

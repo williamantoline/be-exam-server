@@ -13,6 +13,5 @@ router.patch('/admin/borrowings/:id/return', adminBorrowingController.return);
 router.get('/user/borrowings', userBorrowingController.index);
 router.get('/user/borrowings/:id', userBorrowingController.show);
 router.post('/user/borrowings', userBorrowingController.store);
-// router.patch('/user/borrowings/:id', userBorrowingController.cancel);
 
 module.exports = router;
