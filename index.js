@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const { authMid } = require("./middleware/authMid");
 const querystring = require('querystring');
+const http = require('http');
+const { Server } = require('socket.io');
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +21,21 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+const server = http.createServer(app)
+
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000"
+    }
+})
+
+io.on('connection', (socket) => {
+    console.log(socket.id);
+    socket.on('data_changed', (data) => {
+        socket.broadcast.emit('refresh_data', data)
+    })
+})
 
 const db = require("./models");
 
@@ -64,5 +81,5 @@ app.use((err, req, res, next) => {
 
 const host = process.env.HOST || '127.0.0.1';
 const port = process.env.PORT || 3013;
-app.listen(port);
+server.listen(port);
 console.log(`Running on http://${host}:${port}`);
