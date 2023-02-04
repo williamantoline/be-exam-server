@@ -32,7 +32,10 @@ exports.read = async (req, res) => {
 
 exports.clear = async (req, res) => {
     try{
-        await Notification.destroy();
+        await Notification.destroy({
+            where: {},
+            truncate: true
+        });
         res.status(200).json({
 			message: "Clear Notifications success"
 		});
