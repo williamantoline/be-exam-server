@@ -6,17 +6,34 @@ const Category = model.categories;
 
 exports.index = async (req, res) => {
     try {
-        const books = await Book.findAll({
-            attributes: { exclude: ['categoryId'] },
-            include: {
-                model: Category,
-                as: 'category',
-            }
-        })
+        const params = req.query;
+        console.log(params);
+        let books = [];
+        if (req.query.isAvailable) {
+            books = await Book.findAll({
+                where: {
+                    isAvailable: true,
+                },
+                attributes: { exclude: ['categoryId'] },
+                include: {
+                    model: Category,
+                    as: 'category',
+                }
+            });
+        } else {
+            books = await Book.findAll({
+                attributes: { exclude: ['categoryId'] },
+                include: {
+                    model: Category,
+                    as: 'category',
+                }
+            })
+        }
         return res.status(200).json({
             data: books,
         });
     } catch (err) {
+        throw err;
         return res.status(500).end();
     }
 }
@@ -42,6 +59,7 @@ exports.show = async (req, res) => {
 }
 
 exports.store = async (req, res) => {
+    console.log(req.body);
     try{
         const { title, author, publisher, description, page, language, categoryId } = req.body;
         const imagePath = req.file.path;
@@ -99,7 +117,7 @@ exports.update = async (req, res) => {
         })
         await book.save();
 
-        res.status(201).json({
+        res.status(200).json({
 			message: "Update Category success",
 			data: book,
 		});

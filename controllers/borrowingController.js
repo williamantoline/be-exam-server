@@ -3,22 +3,27 @@ const User = model.users;
 const Book = model.books;
 const Category = model.categories;
 const Borrowing = model.borrowings;
+const notification = require("../utils/notification");
 
 exports.index = async (req, res) => {
     try {
         const borrowings = await Borrowing.findAll({
-            where: {
-                userId: req.user.id,
-            },
-            include: {
-                model: Book,
-                as: 'book',
-                attributes: { exclude: ['categoryId'] },
-                include: {
-                    model: Category,
-                    as: 'category',
+            where: {},
+            include: [
+                {
+                    model: Book,
+                    as: 'book',
+                    attributes: { exclude: ['categoryId'] },
+                    include: {
+                        model: Category,
+                        as: 'category',
+                    }
+                },
+                {
+                    model: User,
+                    as: 'user',
                 }
-            }
+            ]
         });
         return res.status(200).json({
             data: borrowings,
@@ -31,8 +36,7 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
     const borrowing = await Borrowing.findOne({
         where: {
-            id: req.params.id,
-            userId: req.user.id
+            id: req.params.id
         },
         include: {
             model: Book,
@@ -56,10 +60,10 @@ exports.show = async (req, res) => {
 
 exports.store = async (req, res) => {
     try{
-        const { status } = req.body;
+        const { userId, bookId } = req.body;
         const book = await Book.findOne({
             where: {
-                id: req.body.id
+                id: bookId,
             }
         })
         if(!book){
@@ -67,15 +71,23 @@ exports.store = async (req, res) => {
                 message: "Not found"
             })
         }
-        const borrowing = await Borrowing.create({status: status, userId: req.user.id, bookId: req.body.id});
+        const borrowing = await Borrowing.create({
+            status: "In Progress",
+            userId: userId, 
+            bookId: bookId,
+        });
+
         book.isAvailable = false
-        await book.save()
+        await book.save();
+
+        notification.notify("success", "Store Borrowing Success", "");
         res.status(201).json({
             message: "Store Borrowing success",
             data: borrowing,
         });
 
     } catch (err) {
+        if (err) console.log(err);
         res.status(500).end()
     }
 }
@@ -94,14 +106,12 @@ exports.return = async (req, res) => {
         })
         book.isAvailable = true;
         await book.save();
-        await Borrowing.destroy({
-			where: {
-				id: req.params.id,
-                userId: req.user.id
-			}
-		})
+        borrowing.status = "Returned";
+        await borrowing.save();
+        notification.notify("success", "Return Borrowing Success", "");
+
 		res.status(200).json({
-			message: "Delete Borrowing success"
+			message: "Return Borrowing success"
 		});
     } catch (err) {
         if(err) console.log(err)

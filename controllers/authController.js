@@ -14,8 +14,10 @@ const getUser = async (email) => {
 const cookieJwtAuth = (req, res) => {
   try {
     const token = req.headers.authorization;
-    if(!token){
-      return res.json({tokenStatus: false}).status(200);
+    if(!token || token == 'undefined'){
+      return res.json({
+        tokenStatus: false
+      }).status(200);
     }
 
     const user = jwt.verify(token, process.env.JWT_KEY);
