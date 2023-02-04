@@ -95,6 +95,7 @@ const editProfile = async (req, res) => {
   // console.log(req.body);
   try {
     const token = req.headers.authorization;
+    const saltRounds = 10;
     const user_ = await jwt.verify(token, process.env.JWT_KEY);
     console.log(user_);
     const user = await model.users.findOne({
@@ -114,7 +115,7 @@ const editProfile = async (req, res) => {
     model.users.updateOne({
       name: name,
       email: email,
-      password: password,
+      password: bcrypt.hashSync(password, saltRounds),
     }, {
       where: {
         id: user_.id,
