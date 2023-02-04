@@ -74,12 +74,17 @@ exports.store = async (req, res) => {
                 message: "Not found"
             })
         }
+        if (book.isAvailable === false) {
+            return res.status(400).json({
+                message: "Book is not available",
+            });
+        }
         const borrowing = await Borrowing.create({
             status: "Requested",
             userId: req.user.id, 
             bookId: bookId,
         });
-
+    
         book.isAvailable = false
         await book.save();
 

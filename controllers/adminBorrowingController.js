@@ -92,6 +92,33 @@ exports.store = async (req, res) => {
     }
 }
 
+exports.taken = async (req, res) => {
+    try{
+        const borrowing = await Borrowing.findOne({
+            where: {
+                id: req.params.id,
+            }
+        })
+        const book = await Book.findOne({
+            where:{
+                id: borrowing.bookId,
+            }
+        })
+        book.isAvailable = true;
+        await book.save();
+        borrowing.status = "On Progress";
+        await borrowing.save();
+        notification.notify("success", "Borrowing Taken", "");
+
+		res.status(200).json({
+			message: "Borrowing Taken success"
+		});
+    } catch (err) {
+        if(err) console.log(err)
+        res.status(500).end()
+    }
+} 
+
 exports.return = async (req, res) => {
     try{
         const borrowing = await Borrowing.findOne({
