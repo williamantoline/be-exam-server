@@ -72,7 +72,7 @@ exports.store = async (req, res) => {
             })
         }
         const borrowing = await Borrowing.create({
-            status: "In Progress",
+            status: "Taken",
             userId: userId, 
             bookId: bookId,
         });
@@ -106,7 +106,7 @@ exports.taken = async (req, res) => {
         })
         book.isAvailable = true;
         await book.save();
-        borrowing.status = "On Progress";
+        borrowing.status = "Taken";
         await borrowing.save();
         notification.notify("success", "Borrowing Taken", "");
 
@@ -153,7 +153,7 @@ exports.approved = async (req, res) => {
                 id: req.params.id,
             }
         })
-        borrowing.status = "In Progress";
+        borrowing.status = "Taken";
         await borrowing.save();
         notification.notify("success", "Borrowing book has been approved", "");
     } catch (err) {
