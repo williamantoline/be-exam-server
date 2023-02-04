@@ -106,7 +106,7 @@ exports.taken = async (req, res) => {
         })
         book.isAvailable = true;
         await book.save();
-        borrowing.status = "On Progress";
+        borrowing.status = "In Progress";
         await borrowing.save();
         notification.notify("success", "Borrowing Taken", "");
 
