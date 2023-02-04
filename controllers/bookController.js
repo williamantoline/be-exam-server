@@ -2,6 +2,7 @@ const sharp = require('sharp');
 const path = require('path')
 const model = require("../models/index");
 const Book = model.books;
+const Borrowing = model.borrowings;
 const Category = model.categories;
 
 exports.index = async (req, res) => {
@@ -98,14 +99,19 @@ exports.store = async (req, res) => {
 exports.update = async (req, res) => {
     try{
         const { title, author, publisher, description, page, language, categoryId } = req.body;
-        const image = req.file.path;
-        const book = await Book.findOne({
-            where: {
-                id: req.params.id
-            }
+        const imagePath = req.file.path;
+        const {filename: img} = req.file;
+        await sharp(imagePath)
+        .resize({
+            width: 500,
+            height: 750,
         })
-
-        book.set({
+        .toFormat('png', {quality: 80})
+        .toFile(
+            path.resolve(req.file.destination,'../compressed',img.split('.')[0]+'.png')
+        )
+        
+        await Book.update({
             title: title,
             author: author,
             publisher: publisher,
@@ -114,8 +120,11 @@ exports.update = async (req, res) => {
             language: language,
             image: image,
             categoryId: categoryId
+        }, {
+            where: {
+                id: req.params.id
+            }
         })
-        await book.save();
 
         res.status(200).json({
 			message: "Update Category success",
@@ -135,6 +144,11 @@ exports.destroy = async (req, res) => {
                 id: id,
             }
         });
+        await Borrowing.destroy({
+            where:{
+                bookId: id,
+            }
+        })
         res.status(200).json({
 			message: "Delete Book success"
 		});
