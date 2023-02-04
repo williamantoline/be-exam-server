@@ -104,7 +104,7 @@ exports.taken = async (req, res) => {
                 id: borrowing.bookId,
             }
         })
-        book.isAvailable = true;
+        book.isAvailable = false;
         await book.save();
         borrowing.status = "Taken";
         await borrowing.save();
